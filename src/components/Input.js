@@ -26,7 +26,7 @@ const Input = () => {
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
     onSubmit: () => {
-      navigate("welcome");
+      navigate("app");
     },
   });
   return (
