@@ -13,7 +13,7 @@ const Sidebar = () => {
         </h1>
       </LogoWrapper>
       <Form>
-        <h1>Sign In</h1>
+        <h1>Sign cIn</h1>
 
         <Input />
       </Form>
