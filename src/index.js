@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
 import App from "./App";
+import Regis from "./components/Login/Regis";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -11,6 +12,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="app" element={<App />} />
+        <Route path="regis" element={<Regis/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

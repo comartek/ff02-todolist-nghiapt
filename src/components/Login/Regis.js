@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { users } from "../../config/users";
 import { setLocalStored, getLocalStored } from "../localStored";
 
-export default function Login() {
+
+export default function Regis() {
   
-  
+  const [login, setLogin] = useState({email: "",
+  password: "",
+  name: '',
+  age: ''})
   
   // set formik
   let navigate = useNavigate();
@@ -17,29 +20,31 @@ export default function Login() {
     initialValues: {
       email: "",
       password: "",
+      name: '',
+      age: ''
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email("Invalid email address")
         .required("Please enter email"),
       password: Yup.string().required("Please enter password"),
+      name: Yup.string(),
+      age: Yup.string()
     }),
     ////
     //set user login to localstored
     onSubmit: (values) => {
-      const user = users.filter((props) => props.email === values.email);
       
-      if (user.length === 1) {
-        if (user[0].password === values.password) {
-          navigate("app");
-          alert("login success");
-          setLocalStored("user", user[0]);
-        } else {
-          alert("password is not correct, please type again");
-        }
-      } else {
-        alert("email is not correct, please type again");
-      }
+    //   const api = axios.post('https://api-nodejs-todolist.herokuapp.com/user/register', {
+    //     email
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+      
 
     },
   });
@@ -55,7 +60,7 @@ export default function Login() {
   return (
     <Contaner>
       <Wrapper>
-        <h1>SIGN IN</h1>
+        <h1>SIGN UP</h1>
         <form className="form" onSubmit={formik.handleSubmit}>
           <StyledInput
             id="email"
@@ -81,10 +86,27 @@ export default function Login() {
           {formik.touched.password && formik.errors.password ? (
             <span className="error">{formik.errors.password}</span>
           ) : null}
-
-          <button type="submit">Login</button>
-          <Link to="/regis">Sign Up</Link>
-
+          <StyledInput
+            id="name"
+            name="name"
+            type="name"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.name}
+            placeholder="Enter Your Name"
+          />
+          
+          <StyledInput
+            id="age"
+            name="age"
+            type="age"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            placeholder="Enter Your Age"
+          />
+         
+          <button type="submit">Sign Up</button>
         </form>
       </Wrapper>
     </Contaner>
@@ -101,7 +123,7 @@ const Contaner = styled.div`
 const Wrapper = styled.div`
   backdrop-filter: blur(35px);
   background-color: rgba(255, 255, 255, 0.8);
-  height: 320px;
+  height: 350px;
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -135,4 +157,4 @@ const StyledInput = styled.input`
   border-radius: 8px;
   padding: 0 30px;
   margin: 8px;
-`;
+  `

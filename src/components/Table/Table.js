@@ -35,7 +35,7 @@ function Table({ jobs, onDelete }) {
                     }}>
                     DELETE
                   </button>
-                  <input type='checkbox' style={{ with: 13, height: 13}}/>
+                  <input type='checkbox' style={{ with: 13, height: 13} }/>
                 </td>
               </tr>
             );
