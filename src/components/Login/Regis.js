@@ -25,9 +25,9 @@ export default function Regis() {
       age: Yup.string()
     }),
     ////
-    //set user login to localstored
+    //post user login to API
     onSubmit: (values) => {
-      console.log('=== values ===', values);
+ //post user login to API
     fetch('https://api-nodejs-todolist.herokuapp.com/user/register', {
     method: 'POST', // or 'PUT'
     headers: {
@@ -36,27 +36,25 @@ export default function Regis() {
     body: JSON.stringify(values),
   })
     .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
+    .then((data) => {   
+        navigate('/')
     })
     .catch((error) => {
-    //   console.error('Error:', error);
+        
     });
-  
-    
-    
-      
+////////////////////////
+
 
     },
   });
   ///////
   // logic chuyen trang
-//   const user = getLocalStored("user");
-//   useEffect(() => {
-//     if (user) {
-//       navigate("/app");
-//     }
-//   }, []);
+  const user = getLocalStored("user");
+  useEffect(() => {
+    if (user) {
+      navigate("/app");
+    }
+  }, []);
   //////////
   return (
     <Contaner>
