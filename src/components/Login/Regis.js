@@ -7,16 +7,6 @@ import * as Yup from "yup";
 import { setLocalStored, getLocalStored } from "../localStored";
 
 export default function Regis() {
-  
-  const [user, setUser] = useState({email: "",
-  password: "",
-  name: '',
-  age: ''});
-  
-  const [userLogin, setUserLogin ] = useState ([])
-
-  
-  
   // set formik
   let navigate = useNavigate();
   const formik = useFormik({
@@ -43,7 +33,7 @@ export default function Regis() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(userLogin),
+    body: JSON.stringify(values),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -113,7 +103,7 @@ export default function Regis() {
             type="age"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
+            value={formik.values.age}
             placeholder="Enter Your Age"
           />
          
