@@ -3,16 +3,19 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { users } from "../../config/users";
-import { setLocalStored, getLocalStored } from "../localStored";
 
+import { setLocalStored, getLocalStored } from "../localStored";
 
 export default function Regis() {
   
-  const [login, setLogin] = useState({email: "",
+  const [user, setUser] = useState({email: "",
   password: "",
   name: '',
-  age: ''})
+  age: ''});
+  
+  const [userLogin, setUserLogin ] = useState ([])
+
+  
   
   // set formik
   let navigate = useNavigate();
@@ -34,28 +37,36 @@ export default function Regis() {
     ////
     //set user login to localstored
     onSubmit: (values) => {
-      
-    //   const api = axios.post('https://api-nodejs-todolist.herokuapp.com/user/register', {
-    //     email
-    //   })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+      console.log('=== values ===', values);
+    fetch('https://api-nodejs-todolist.herokuapp.com/user/register', {
+    method: 'POST', // or 'PUT'
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((error) => {
+    //   console.error('Error:', error);
+    });
+  
+    
+    
       
 
     },
   });
   ///////
   // logic chuyen trang
-  const user = getLocalStored("user");
-  useEffect(() => {
-    if (user) {
-      navigate("/app");
-    }
-  }, []);
+//   const user = getLocalStored("user");
+//   useEffect(() => {
+//     if (user) {
+//       navigate("/app");
+//     }
+//   }, []);
   //////////
   return (
     <Contaner>
