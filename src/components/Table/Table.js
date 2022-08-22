@@ -25,7 +25,7 @@ function Table({ jobs, onDelete }) {
                 <td>{index + 1}</td>
                 <td>{item.content}</td>
                 <td>{item.dateline}</td>
-                <td>
+                <td >
                   <button
                     onClick={() => onDelete(index)}
                     style={{
@@ -35,6 +35,7 @@ function Table({ jobs, onDelete }) {
                     }}>
                     DELETE
                   </button>
+                  <input type='checkbox' style={{ with: 13, height: 13}}/>
                 </td>
               </tr>
             );

@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Table from "./components/Table/Table";
-import { getLocalStored, setLocalStored } from "./components/localStored";
+import { deleteLocalStored, getLocalStored, setLocalStored } from "./components/localStored";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
     }
   }, []);
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    deleteLocalStored(key);
     navigate("/");
   };
   /////////////

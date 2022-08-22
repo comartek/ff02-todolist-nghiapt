@@ -7,3 +7,7 @@ export function getLocalStored(key) {
     typeof window !== "undefined" ? localStorage.getItem(key) : null;
   return stored ? JSON.parse(stored) : null;
 }
+
+export function deleteLocalStored(key) {
+  localStorage.removeItem('user')
+}
