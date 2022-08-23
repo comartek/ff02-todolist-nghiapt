@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Table.css";
+import { axiosClient } from "../axios";
 
-function Table({ jobs, onDelete }) {
+function Table({ jobs, onDelete, auth }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION"];
-
+  const [data, setData] = useState([])
+ 
+    async function getData() {
+    try {
+      const res = await axiosClient.get('task',
+      { headers:{Authorization:`Bearer ${auth.token}`}},)
+            setData(res.data.data)
+          } catch (error) {
+      alert(error)
+    }}
+    getData()
+    
   return (
     <div>
       <h1 style={{ marginTop: 40 }}>TABLE</h1>
-
+      
       <body>
         <table style={{ width: "100%" }}>
           <tr>
@@ -18,13 +30,13 @@ function Table({ jobs, onDelete }) {
                 </th>
               );
             })}
-          </tr>
-          {jobs.map((item, index) => {
+          </tr> 
+          {data.map((item, index) => {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item.content}</td>
-                <td>{item.dateline}</td>
+                <td>{item.description}</td>
+                <td>{item.createdAt}</td>
                 <td style={{
                     display: "flex",
                     alighItem: "center",
@@ -47,6 +59,7 @@ function Table({ jobs, onDelete }) {
           })}
         </table>
       </body>
+     
     </div>
   );
 }

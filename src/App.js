@@ -19,23 +19,30 @@ function App() {
   /// change job in useState
   const onSubmit = (e) => {
     setJob({ ...job, [e.target.name]: e.target.value });
+    
   };
   ///////////
   ////// push job to useState jobs
-  const handleJobs = () => {
+  const handleJobs = async () => {
     if (job.content === "") {
       return;
     }
-    if (job.dateline === "") {
-      return;
-    }
+    
     let arr = jobs;
     setJobs(arr.concat(job));
-    setJob({ content: "", dateline: "" });
+    
     ref.current.value = "";
     ref2.current.value = "";
+    try {
+      await axiosClient.post('task',  {description: job.content},
+      { headers:{Authorization:`Bearer ${auth.token}`}},)
+    
+    } catch (error) {
+      alert(error)
+    }
   };
   //////////
+ 
   // set jobs in local stored
   useEffect(() => {
     setLocalStored(key, jobs);
@@ -51,22 +58,23 @@ function App() {
   ////////
   // logic logout and delete user in localstored
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, []);
+ 
   const handleLogout = async() => {
     try {
-      await axiosClient.post('user/logout',{},{  headers:{Authorization:`Bearer ${auth.token}`}})
+      await axiosClient.post('user/logout',{},{ headers:{Authorization:`Bearer ${auth.token}`}})
       deleteLocalStored('auth');
-      navigate("/");  
+      navigate("/");
     } catch (error) {
       alert(error)
     }
     
   };
   /////////////
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="App">
       <h1>TODOLISH for {user ? user?.email : null} </h1>
@@ -82,17 +90,12 @@ function App() {
         onChange={onSubmit}
         ref={ref}
       />
-      <input
-        name="dateline"
-        style={{ marginLeft: 20 }}
-        type="date"
-        onChange={onSubmit}
-        ref={ref2}
-      />
+      
       <button style={{ marginLeft: 20 }} onClick={handleJobs}>
         ADD
       </button>
-      <Table jobs={jobs} onDelete={handleDelete} />
+      <Table jobs={jobs} onDelete={handleDelete} auth={auth} />
+      
     </div>
   );
 }

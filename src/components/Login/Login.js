@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -40,11 +40,11 @@ export default function Login() {
   ///////
   // logic ghi nho user da dang nhap 
   const user = getLocalStored("auth");
-  useEffect(() => {
-    if (user) {
-      navigate("/app");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/app");
+  //   }
+  // }, []);
   ////////
   return (
     <Contaner>

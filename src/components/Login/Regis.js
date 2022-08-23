@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useFormik } from "formik";
@@ -44,11 +44,11 @@ export default function Regis() {
   ///////
   // logic ghi nho user da dang nhap
   const user = getLocalStored("auth");
-  useEffect(() => {
-    if (user) {
-      navigate("/app");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/app");
+  //   }
+  // }, []);
   //////////
   return (
     <Contaner>
