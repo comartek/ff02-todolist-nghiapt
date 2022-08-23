@@ -9,5 +9,5 @@ export function getLocalStored(key) {
 }
 
 export function deleteLocalStored(key) {
-  localStorage.removeItem('user')
+  localStorage.removeItem(key)
 }

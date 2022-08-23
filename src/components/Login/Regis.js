@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-import { setLocalStored, getLocalStored } from "../localStored";
+import {  getLocalStored } from "../localStored";
+import { axiosClient } from "../axios";
 
 export default function Regis() {
   // set formik
@@ -26,30 +26,24 @@ export default function Regis() {
     }),
     ////
     //post user login to API
-    onSubmit: (values) => {
- //post user login to API
-    fetch('https://api-nodejs-todolist.herokuapp.com/user/register', {
-    method: 'POST', // or 'PUT'
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(values),
-  })
-    .then((response) => response.json())
-    .then((data) => {   
+    onSubmit: async (values) => {
+      const data = values
+      try {
+        await axiosClient.post('user/register', data)
         navigate('/')
-    })
-    .catch((error) => {
-        
-    });
+        alert('Sign Up success')
+      } catch (error) {
+        alert('Sign Up false')
+      }
+    
 ////////////////////////
 
 
     },
   });
   ///////
-  // logic chuyen trang
-  const user = getLocalStored("user");
+  // logic ghi nho user da dang nhap
+  const user = getLocalStored("auth");
   useEffect(() => {
     if (user) {
       navigate("/app");

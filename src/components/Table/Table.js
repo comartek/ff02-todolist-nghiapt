@@ -21,11 +21,16 @@ function Table({ jobs, onDelete }) {
           </tr>
           {jobs.map((item, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.content}</td>
                 <td>{item.dateline}</td>
-                <td >
+                <td style={{
+                    display: "flex",
+                    alighItem: "center",
+                    gap: "20px",
+                    justifyContent: "center",
+                  }}>
                   <button
                     onClick={() => onDelete(index)}
                     style={{
@@ -35,7 +40,7 @@ function Table({ jobs, onDelete }) {
                     }}>
                     DELETE
                   </button>
-                  <input type='checkbox' style={{ with: 13, height: 13} }/>
+                  <input type='checkbox' style={{ width: '30px', height: '30px'} }/>
                 </td>
               </tr>
             );

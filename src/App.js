@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import Table from "./components/Table/Table";
 import { deleteLocalStored, getLocalStored, setLocalStored } from "./components/localStored";
 import { useNavigate } from "react-router-dom";
+import { axiosClient } from "./components/axios";
 
 function App() {
   // lấy user từ localstored sau nó chọc vào BIẾN email trong đó và lấy chính BIẾN đó làm key để thêm các jobs vào localstored
-  const user = getLocalStored("user");
-  const key = user?.email;
+  const auth = getLocalStored("auth");
+  const key = auth?.user?._id;
+  const user = auth?.user
   ///////////////
   const [job, setJob] = useState({ content: "", dateline: "" });
   const [jobs, setJobs] = useState(getLocalStored(key) || []);
@@ -47,16 +49,22 @@ function App() {
     setJobs(deleteJobs.concat());
   };
   ////////
-  // logic logout and check
+  // logic logout and delete user in localstored
 
   useEffect(() => {
     if (!user) {
       navigate("/");
     }
   }, []);
-  const handleLogout = () => {
-    deleteLocalStored(key);
-    navigate("/");
+  const handleLogout = async() => {
+    try {
+      await axiosClient.post('user/logout',{},{  headers:{Authorization:`Bearer ${auth.token}`}})
+      deleteLocalStored('auth');
+      navigate("/");  
+    } catch (error) {
+      alert(error)
+    }
+    
   };
   /////////////
   return (

@@ -4,13 +4,11 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { users } from "../../config/users";
+
 import { setLocalStored, getLocalStored } from "../localStored";
+import { axiosClient } from "../axios";
 
 export default function Login() {
-  
-  
-  
   // set formik
   let navigate = useNavigate();
   const formik = useFormik({
@@ -25,33 +23,29 @@ export default function Login() {
       password: Yup.string().required("Please enter password"),
     }),
     ////
-    //set user login to localstored
-    onSubmit: (values) => {
-      const user = users.filter((props) => props.email === values.email);
-      
-      if (user.length === 1) {
-        if (user[0].password === values.password) {
-          navigate("app");
-          alert("login success");
-          setLocalStored("user", user[0]);
-        } else {
-          alert("password is not correct, please type again");
-        }
-      } else {
-        alert("email is not correct, please type again");
+    //post value login on API and set value on localstored
+    onSubmit: async (values) => {
+      const data = values
+      try {
+        const res = await axiosClient.post('user/login', data)
+        setLocalStored('auth', res?.data)
+        navigate('app')
+        alert('Login Success')
+      } catch (error) {
+        alert('Login false')
       }
 
     },
   });
   ///////
-  // logic chuyen trang
-  const user = getLocalStored("user");
+  // logic ghi nho user da dang nhap 
+  const user = getLocalStored("auth");
   useEffect(() => {
     if (user) {
       navigate("/app");
     }
   }, []);
-  //////////
+  ////////
   return (
     <Contaner>
       <Wrapper>
