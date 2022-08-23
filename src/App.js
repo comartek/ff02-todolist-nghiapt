@@ -14,7 +14,7 @@ function App() {
   const [job, setJob] = useState({ content: "", dateline: "" });
   const [jobs, setJobs] = useState(getLocalStored(key) || []);
   const ref = useRef(null);
-  const ref2 = useRef(null);
+  
   const navigate = useNavigate();
   /// change job in useState
   const onSubmit = (e) => {
@@ -32,11 +32,11 @@ function App() {
     setJobs(arr.concat(job));
     
     ref.current.value = "";
-    ref2.current.value = "";
+   
     try {
       await axiosClient.post('task',  {description: job.content},
       { headers:{Authorization:`Bearer ${auth.token}`}},)
-    
+      
     } catch (error) {
       alert(error)
     }
@@ -94,7 +94,7 @@ function App() {
       <button style={{ marginLeft: 20 }} onClick={handleJobs}>
         ADD
       </button>
-      <Table jobs={jobs} onDelete={handleDelete} auth={auth} />
+      <Table job={job} onDelete={handleDelete} auth={auth} />
       
     </div>
   );

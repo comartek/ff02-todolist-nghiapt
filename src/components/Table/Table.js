@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./Table.css";
 import { axiosClient } from "../axios";
 
-function Table({ jobs, onDelete, auth }) {
+function Table({ job, onDelete, auth }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION"];
   const [data, setData] = useState([])
- 
-    async function getData() {
+   
+    useEffect(() => {
+      async function getData() {
     try {
       const res = await axiosClient.get('task',
       { headers:{Authorization:`Bearer ${auth.token}`}},)
-            setData(res.data.data)
-          } catch (error) {
-      alert(error)
+      console.log(res)
+      setData(res.data.data)
+    } catch (error) {
+        alert(error)
     }}
     getData()
+    },[job])
+    
     
   return (
     <div>
