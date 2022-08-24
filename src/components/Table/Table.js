@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from "react";
 import "./Table.css";
-import { axiosClient } from "../axios";
 
-function Table({ job, onDelete, auth }) {
+function Table({ jobs, onDelete }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION"];
-  const [data, setData] = useState([])
-   
-    useEffect(() => {
-      async function getData() {
-    try {
-      const res = await axiosClient.get('task',
-      { headers:{Authorization:`Bearer ${auth.token}`}},)
-      console.log(res)
-      setData(res.data.data)
-    } catch (error) {
-        alert(error)
-    }}
-    getData()
-    },[job])
-    
-    
+
   return (
     <div>
       <h1 style={{ marginTop: 40 }}>TABLE</h1>
-      
+
       <body>
         <table style={{ width: "100%" }}>
           <tr>
@@ -34,21 +17,23 @@ function Table({ job, onDelete, auth }) {
                 </th>
               );
             })}
-          </tr> 
-          {data.map((item, index) => {
+          </tr>
+          {jobs.map((item, index) => {
+            let idDelete = item._id;
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.description}</td>
                 <td>{item.createdAt}</td>
-                <td style={{
+                <td
+                  style={{
                     display: "flex",
                     alighItem: "center",
                     gap: "20px",
                     justifyContent: "center",
                   }}>
                   <button
-                    onClick={() => onDelete(index)}
+                    onClick={() => onDelete(idDelete)}
                     style={{
                       backgroundColor: "#de1738",
                       borderRadius: 10,
@@ -56,14 +41,16 @@ function Table({ job, onDelete, auth }) {
                     }}>
                     DELETE
                   </button>
-                  <input type='checkbox' style={{ width: '30px', height: '30px'} }/>
+                  <input
+                    type="checkbox"
+                    style={{ width: "30px", height: "30px" }}
+                  />
                 </td>
               </tr>
             );
           })}
         </table>
       </body>
-     
     </div>
   );
 }
