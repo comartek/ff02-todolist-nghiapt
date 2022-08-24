@@ -46,6 +46,7 @@ function App() {
         params,
       });
       setJobs(res.data.data);
+      
     } catch (error) {
       alert(error);
     }
@@ -118,14 +119,14 @@ async function getImage() {
   try {
     const res = await axiosClient.get(`user/${user._id}/avatar`);
     setImage(res.request.responseURL)
-   
+    console.log(res.request.responseURL)
   } catch (error) {
-    alert(error);
+    setImage([])
   }
 }
 useEffect(() => {
   getImage();
-}, [image]);
+}, []);
 ///////////////////
 //// delete image 
 async function handleDeleteImage () {
@@ -134,21 +135,42 @@ async function handleDeleteImage () {
       headers: { Authorization: "Bearer " + auth.token },
     });
     getImage();
+    console.log('aaa')
   } catch (error) {
     alert(error);
   }
 }
-
+////////////////////
+///// delete user 
+async function handleDeleteUser() {
+  try {
+    await axiosClient.delete(
+      "user/me",
+      
+      {
+        headers: { Authorization: "Bearer " + auth.token },
+      }
+    );
+    deleteLocalStored("auth");
+    navigate("/");
+  } catch (error) {
+    alert(error);
+  }
+}
   return (
     <div className="App" >
       <h1>TODOLISH for {user ? user?.email : null} </h1>
       
       <img src={image}/>
+      <br />
       <button onClick={handleDeleteImage}>Delete Image</button>
       <br />
       <br />
       <button style={{ marginBottom: 30 }} onClick={handleLogout}>
         logout
+      </button>
+      <button style={{ marginBottom: 30, marginLeft: 20 }} onClick={handleDeleteUser}>
+      Delete User
       </button>
       <Link to='/update' >
         <button style={{ marginBottom: 30, marginLeft: 20 }} >

@@ -66,7 +66,7 @@ async function handleImage (e) {
       }
     );
     alert('upload image success')
-    console.log(picture)
+    
   } catch (error) {
     alert(error);
   }
