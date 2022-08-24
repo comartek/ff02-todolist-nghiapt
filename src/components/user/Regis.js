@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {  getLocalStored } from "../localStored";
 import { axiosClient } from "../axios";
+import { useEffect } from "react";
 
 export default function Regis() {
   // set formik

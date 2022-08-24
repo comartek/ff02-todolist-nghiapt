@@ -2,8 +2,8 @@ import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Table from "./components/Table/Table";
 import { getLocalStored, deleteLocalStored } from "./components/localStored";
-import { useNavigate } from "react-router-dom";
-import { axiosClient } from "./components/axios";
+import { useNavigate, Link } from "react-router-dom";
+import { axiosClient,  } from "./components/axios";
 
 function App() {
   const auth = getLocalStored("auth");
@@ -16,7 +16,7 @@ function App() {
   const [limit, setLimit] = useState(7);
   const [skip, setSkip] = useState(1);
   const navigate = useNavigate();
-  /// change job in useState
+
 
   // function chuyen trang + render ra bang moi
 
@@ -63,7 +63,7 @@ function App() {
     }
   }
   /////////////////
-  //////// toa task moi va render lai toan bo task
+  //////// tao task moi va render lai toan bo task
   async function createTask() {
     if (job === "") {
       return;
@@ -106,18 +106,56 @@ function App() {
     }
   }
   /////////
-  // firth
+
+  // doi trang va render bang moi ngay tu dau tu API
   useEffect(() => {
     getAllTask();
   }, [skip]);
+//////////////////////
+//// get image from API 
+const [image, setImage] = useState()
+async function getImage() {
+  try {
+    const res = await axiosClient.get(`user/${user._id}/avatar`);
+    setImage(res.request.responseURL)
+   
+  } catch (error) {
+    alert(error);
+  }
+}
+useEffect(() => {
+  getImage();
+}, [image]);
+///////////////////
+//// delete image 
+async function handleDeleteImage () {
+  try {
+    await axiosClient.delete("user/me/avatar", {
+      headers: { Authorization: "Bearer " + auth.token },
+    });
+    getImage();
+  } catch (error) {
+    alert(error);
+  }
+}
 
   return (
-    <div className="App">
+    <div className="App" >
       <h1>TODOLISH for {user ? user?.email : null} </h1>
-
+      
+      <img src={image}/>
+      <button onClick={handleDeleteImage}>Delete Image</button>
+      <br />
+      <br />
       <button style={{ marginBottom: 30 }} onClick={handleLogout}>
         logout
       </button>
+      <Link to='/update' >
+        <button style={{ marginBottom: 30, marginLeft: 20 }} >
+      Update User Profile
+      </button>
+      </Link>
+      
       <br />
       <input
         name="content"
