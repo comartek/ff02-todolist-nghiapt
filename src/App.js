@@ -146,7 +146,6 @@ async function handleDeleteUser() {
   try {
     await axiosClient.delete(
       "user/me",
-      
       {
         headers: { Authorization: "Bearer " + auth.token },
       }
@@ -161,7 +160,9 @@ async function handleDeleteUser() {
     <div className="App" >
       <h1>TODOLISH for {user ? user?.email : null} </h1>
       
-      <img src={image}/>
+      <img src={image} style={{width: 200,
+    height: 200,
+    borderRadius: 200 / 2}}/>
       <br />
       <button onClick={handleDeleteImage}>Delete Image</button>
       <br />
