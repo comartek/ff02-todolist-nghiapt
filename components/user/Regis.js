@@ -1,53 +1,60 @@
-import React, { useEffect } from "react";
+
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { setLocalStored, getLocalStored } from "../localStored";
+import {  getLocalStored } from "../localStored";
 import { axiosClient } from "../axios";
+import { useEffect } from "react";
 
-export default function Login() {
+export default function Regis() {
   // set formik
   let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      name: '',
+      age: ''
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email("Invalid email address")
         .required("Please enter email"),
       password: Yup.string().required("Please enter password"),
+      name: Yup.string(),
+      age: Yup.string()
     }),
     ////
-    //post value login on API and set value on localstored
+    //post user login to API
     onSubmit: async (values) => {
-      const data = values;
+      const data = values
       try {
-        const res = await axiosClient.post("user/login", data);
-        setLocalStored("auth", res?.data);
-        navigate("app");
-        alert("Login Success");
+        await axiosClient.post('user/register', data)
+        navigate('/')
+        alert('Sign Up success')
       } catch (error) {
-        alert("Login false");
+        alert('Sign Up false')
       }
+    
+////////////////////////
+
+
     },
   });
   ///////
   // logic ghi nho user da dang nhap
   const user = getLocalStored("auth");
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/app");
-  //   }
-  // }, []);
-  ////////
+  useEffect(() => {
+    if (user) {
+      navigate("/app");
+    }
+  }, []);
+  //////////
   return (
     <Contaner>
       <Wrapper>
-        <h1>SIGN IN</h1>
+        <h1>SIGN UP</h1>
         <form className="form" onSubmit={formik.handleSubmit}>
           <StyledInput
             id="email"
@@ -73,9 +80,27 @@ export default function Login() {
           {formik.touched.password && formik.errors.password ? (
             <span className="error">{formik.errors.password}</span>
           ) : null}
-
-          <button type="submit">Login</button>
-          <Link to="/regis">Sign Up</Link>
+          <StyledInput
+            id="name"
+            name="name"
+            type="name"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.name}
+            placeholder="Enter Your Name"
+          />
+          
+          <StyledInput
+            id="age"
+            name="age"
+            type="age"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.age}
+            placeholder="Enter Your Age"
+          />
+         
+          <button type="submit">Sign Up</button>
         </form>
       </Wrapper>
     </Contaner>
@@ -92,7 +117,7 @@ const Contaner = styled.div`
 const Wrapper = styled.div`
   backdrop-filter: blur(35px);
   background-color: rgba(255, 255, 255, 0.8);
-  height: 320px;
+  height: 350px;
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -126,4 +151,4 @@ const StyledInput = styled.input`
   border-radius: 8px;
   padding: 0 30px;
   margin: 8px;
-`;
+  `

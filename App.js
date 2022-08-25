@@ -1,10 +1,8 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Table from "./components/Table/Table";
-import { getLocalStored, deleteLocalStored } from "./components/localStored";
+import { getLocalStored} from "./components/localStored";
 import { useNavigate, Link } from "react-router-dom";
-import { axiosClient } from "./components/axios";
-import imgAvatar from "./assets/aaa.jpg";
 import {
   getAllTask,
   createTask,
@@ -13,6 +11,7 @@ import {
   panigiHi,
 } from "./service/task";
 import { handleLogout, handleDeleteUser } from "./service/user";
+import {getImage, handleDeleteImage} from "./service/image"
 
 function App() {
   const auth = getLocalStored("auth");
@@ -27,7 +26,7 @@ function App() {
   const navigate = useNavigate();
 
   // task
-
+  /// dat trang 
   const panigi = () => {
     function pre() {
       panigiHi(setSkip, skip).pre();
@@ -38,15 +37,18 @@ function App() {
 
     return { next, pre };
   };
-
+////////
+///// thay doi trang thai
   const handleChangeStatusHai = (e, id) => {
     handleChangeStatus(e, id, () => getAllTask(setJobs, limit, skip));
   };
-
+//////
+//// xoa task
   const deleteTaskHai = (id) => {
     deleteTask(id, () => getAllTask(setJobs, limit, skip));
   };
-
+//////
+///// tao task moi tu input
   const createTaskHai = () =>
     createTask(job, ref, () => getAllTask(setJobs, limit, skip));
 
@@ -69,45 +71,17 @@ function App() {
   };
 
   //////////////////////
-  //// get image from API
+  //// get image from API and delete image
   const [image, setImage] = useState();
-  async function getImage() {
-    try {
-      const res = await axiosClient.get(`user/${user._id}/avatar`);
-      setImage(res.request.responseURL || imgAvatar);
-    } catch (error) {
-      setImage(imgAvatar);
-    }
+  // 
+  const handleDeleteImageHai = () => {
+    handleDeleteImage(() => getImage(setImage))
   }
   useEffect(() => {
-    getImage();
+    getImage(setImage);
   }, []);
-  ///////////////////
-  //// delete image
-  async function handleDeleteImage() {
-    try {
-      await axiosClient.delete("user/me/avatar", {
-        headers: { Authorization: "Bearer " + auth.token },
-      });
-      getImage();
-      console.log("aaa");
-    } catch (error) {
-      alert(error);
-    }
-  }
-  ////////////////////
-  ///// delete user
-  // async function handleDeleteUser() {
-  //   try {
-  //     await axiosClient.delete("user/me", {
-  //       headers: { Authorization: "Bearer " + auth.token },
-  //     });
-  //     deleteLocalStored("auth");
-  //     navigate("/");
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // }
+///////////////
+  
 
   return (
     <div className="App">
@@ -118,7 +92,7 @@ function App() {
         style={{ width: 200, height: 200, borderRadius: 200 / 2 }}
       />
       <br />
-      <button onClick={handleDeleteImage}>Delete Image</button>
+      <button onClick={handleDeleteImageHai}>Delete Image</button>
       <br />
       <br />
       <button style={{ marginBottom: 30 }} onClick={handleLogoutHai}>
