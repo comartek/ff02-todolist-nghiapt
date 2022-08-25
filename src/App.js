@@ -92,7 +92,7 @@ function App() {
         style={{ width: 200, height: 200, borderRadius: 200 / 2 }}
       />
       <br />
-      <button onClick={handleDeleteImageHai}>Delete Image</button>
+      <button style={{ marginTop: 20 }} onClick={handleDeleteImageHai}>Delete Image</button>
       <br />
       <br />
       <button style={{ marginBottom: 30 }} onClick={handleLogoutHai}>
@@ -134,9 +134,9 @@ function App() {
           justifyContent: "center",
           gap: "50px",
         }}>
-        <button onClick={() => panigi().pre()}>lui</button>
+        <button onClick={() => panigi().pre()}>Back</button>
         <p>Page {skip}</p>
-        <button onClick={() => panigi().next()}>tien</button>
+        <button onClick={() => panigi().next()}>Next</button>
       </div>
     </div>
   );
