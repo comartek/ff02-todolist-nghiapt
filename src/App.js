@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
-import Table from "./components/Table/Table";
+import TableTask from "./components/Table/Table";
 import { getLocalStored} from "./components/localStored";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -51,6 +51,10 @@ function App() {
 ///// tao task moi tu input
   const createTaskHai = () =>
     createTask(job, ref, () => getAllTask(setJobs, limit, skip));
+///////
+////// edit task 
+  
+
 
   function handleChange(e) {
     setJob(e.target.value);
@@ -121,10 +125,12 @@ function App() {
       <button style={{ marginLeft: 20 }} onClick={createTaskHai}>
         ADD
       </button>
-      <Table
+      <TableTask
         onDelete={deleteTaskHai}
         jobs={jobs}
         onChangeStatus={handleChangeStatusHai}
+       
+        
       />
 
       <div

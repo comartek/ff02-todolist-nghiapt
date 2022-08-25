@@ -1,6 +1,7 @@
+
 import "./Table.css";
 
-function Table({ jobs, onDelete, onChangeStatus }) {
+function TableTask({ jobs, onDelete, onChangeStatus}) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION", "STATUS"];
 
   return (
@@ -22,7 +23,18 @@ function Table({ jobs, onDelete, onChangeStatus }) {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item.description}</td>
+                {/* {idEdit === idDelete ? (
+                  <td>
+                    <input
+                      style={{ color: "black" }}
+                      type="text"
+                      onChange={(e) => setEditingText(e, idDelete) }
+                    />
+                  </td>
+                ) : (
+                )} */}
+                
+                  <td> {item.description} </td>
                 <td>{item.createdAt}</td>
                 <td>
                   <button
@@ -52,4 +64,4 @@ function Table({ jobs, onDelete, onChangeStatus }) {
   );
 }
 
-export default Table;
+export default TableTask;
