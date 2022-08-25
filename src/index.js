@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/user/Login";
+import Login from "./components/page/Login";
 import App from "./App";
-import Regis from "./components/user/Regis";
-import UpdateUser from "./components/user/updateUser";
+import Regis from "./components/page/Regis";
+import UpdateUser from "./components/page/updateUser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

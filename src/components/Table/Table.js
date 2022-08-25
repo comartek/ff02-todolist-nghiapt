@@ -6,7 +6,6 @@ function Table({ jobs, onDelete, onChangeStatus }) {
   return (
     <div>
       <h1 style={{ marginTop: 40 }}>TABLE</h1>
-
       <body>
         <table style={{ width: "100%" }}>
           <tr>
