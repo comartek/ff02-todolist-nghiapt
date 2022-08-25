@@ -21,7 +21,7 @@ function App() {
   const [jobs, setJobs] = useState([]);
   const ref = useRef(null);
 
-  const [limit, setLimit] = useState(7);
+  const [limit, setLimit] = useState(5);
   const [skip, setSkip] = useState(1);
   const navigate = useNavigate();
 

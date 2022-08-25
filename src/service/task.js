@@ -59,8 +59,9 @@ export async function deleteTask(id, getAllTask) {
 export async function getAllTask(setState, limit, skip) {
   const params = {
     limit,
-    skip,
+    skip:(skip -1)*limit,
   };
+  console.log(skip)
   const auth = getLocalStored("auth");
 
   try {
