@@ -1,5 +1,5 @@
 import { axiosClient } from "../components/axios";
-import { getLocalStored, deleteLocalStored } from "../components/localStored";
+import { getLocalStored } from "../components/localStored";
 import imgAvatar from "../assets/aaa.jpg";
 
 export async function getImage(setState) {
@@ -7,9 +7,9 @@ export async function getImage(setState) {
     const user = auth?.user;
     try {
       const res = await axiosClient.get(`user/${user._id}/avatar`);
-      setImage(res.request.responseURL || imgAvatar);
+      setState(res.request.responseURL || imgAvatar);
     } catch (error) {
-      setImage(imgAvatar);
+      setState(imgAvatar);
     }
   }
 
