@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./Table.css";
 
 
-function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
+function TableComplete({ jobs, onDelete, onChangeStatus, onEdit }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION", "STATUS"];
-
+   
   const [idEdit, setIdEdit] = useState();
   const [updateJob, setUpdateJob] = useState();
 
@@ -17,11 +17,11 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
     setIdEdit("");
     setUpdateJob("");
   }
- 
-
+    console.log(jobs)
+  
   return (
     <div>
-      <h1 style={{ marginTop: 40 }}>UnComplete</h1>
+      <h1 style={{ marginTop: 40 }}>Compelete</h1>
       <body>
         <table style={{ width: "100%" }}>
           <tr>
@@ -33,7 +33,7 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
               );
             })}
           </tr>
-          {jobs.filter((jobss) => jobss.completed === false).map((item, index) => {
+          {jobs.filter((jobss) => jobss.completed === true).map((item, index) => {
             let idDelete = item._id;
             return (
               <tr key={index}>
@@ -95,4 +95,4 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
   );
 }
 
-export default TableTask;
+export default TableComplete;

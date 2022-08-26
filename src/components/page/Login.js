@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -6,8 +6,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { setLocalStored, getLocalStored } from "../localStored";
 import { axiosClient } from "../axios";
+import Loading from "../loadingScreen/loadingScreen";
 
 export default function Login() {
+  
+  const [load, setLoad] = useState(false)
+  
   // set formik
   let navigate = useNavigate();
   const formik = useFormik({
@@ -23,29 +27,36 @@ export default function Login() {
     }),
     ////
     //post value login on API and set value on localstored
-    onSubmit: async (values) => {
+    onSubmit: async(values) => {
+      setLoad(true)
       const data = values;
       try {
         const res = await axiosClient.post("user/login", data);
         setLocalStored("auth", res?.data);
         navigate("app");
-        alert("Login Success");
+        
+        setLoad(false)
       } catch (error) {
         alert("Login false");
+        setLoad(false)
       }
-    },
+     
+    }
   });
+  
+  
   ///////
   // logic ghi nho user da dang nhap
   const user = getLocalStored("auth");
-  useEffect(() => {
-    if (user) {
-      navigate("/app");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/app");
+  //   }
+  // }, []);
   ////////
   return (
     <Contaner>
+      <Loading load={load}/>
       <Wrapper>
         <h1>SIGN IN</h1>
         <form className="form" onSubmit={formik.handleSubmit}>
@@ -74,7 +85,7 @@ export default function Login() {
             <span className="error">{formik.errors.password}</span>
           ) : null}
 
-          <button type="submit">Login</button>
+          <button type="submit" >Login</button>
           <Link to="/regis">Sign Up</Link>
         </form>
       </Wrapper>
@@ -92,7 +103,7 @@ const Contaner = styled.div`
 const Wrapper = styled.div`
   backdrop-filter: blur(35px);
   background-color: rgba(255, 255, 255, 0.8);
-  height: 320px;
+  height: 300px;
   width: 300px;
   display: flex;
   flex-direction: column;

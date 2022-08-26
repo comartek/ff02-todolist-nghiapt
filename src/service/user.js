@@ -14,7 +14,7 @@ export async function handleLogout(navigate) {
     );
     deleteLocalStored("auth");
     navigate("/");
-    console.log("aaa");
+    
   } catch (error) {
     alert(error);
   }

@@ -5,9 +5,11 @@ import * as Yup from "yup";
 import { getLocalStored } from "../localStored";
 import { axiosClient } from "../axios";
 import { useState } from "react";
+import Loading from "../loadingScreen/loadingScreen";
 
 export default function UpdateUser() {
   const auth = getLocalStored("auth");
+  const [load, setLoad] = useState(false)
   // set formik
 
   const formik = useFormik({
@@ -20,8 +22,9 @@ export default function UpdateUser() {
       age: Yup.string(),
     }),
     ////
-    //updare user to API
+    //update user to API
     onSubmit: async (values) => {
+      setLoad(true)
       const data = values;
       try {
         await axiosClient.put("user/me", data, {
@@ -29,24 +32,28 @@ export default function UpdateUser() {
         });
 
         alert("Update success");
+        setLoad(false)
       } catch (error) {
         alert("Update false");
+        setLoad(false)
       }
     },
   });
   ///////////
   const [picture, setPicture] = useState({});
+  
   ///////// post image to API
   const handleUpload = (e) => {
     setPicture({
       pictureFile: e.target.files[0],
     });
+    
   };
   async function handleImage(e) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("avatar", picture.pictureFile);
-
+    setLoad(true)
     const headers = {
       Authorization: "Bearer " + auth.token,
     };
@@ -60,8 +67,10 @@ export default function UpdateUser() {
         }
       );
       alert("upload image success");
+      setLoad(false)
     } catch (error) {
       alert(error);
+      setLoad(false)
     }
   }
 
@@ -69,6 +78,7 @@ export default function UpdateUser() {
 
   return (
     <Contaner>
+      <Loading load={load}/>
       <Wrapper>
         <h1>Update User Profile</h1>
         <form className="form" onSubmit={handleImage}>

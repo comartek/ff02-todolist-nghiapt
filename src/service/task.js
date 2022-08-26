@@ -1,5 +1,7 @@
 import { axiosClient } from "../components/axios";
 import { getLocalStored } from "../components/localStored";
+
+
 ///////////////////
 /// update status
 export async function handleChangeStatus(e, id, getAllTask) {
@@ -45,7 +47,7 @@ export async function createTask(job, ref, getAllTask) {
 ////////
 //// update task
 
-export async function handleEdit(updateJob, id, getAllTask) {
+export async function handleEdit(updateJob, id, setLoading, getAllTask) {
   if (updateJob === "") {
     return;
   }
@@ -59,29 +61,45 @@ export async function handleEdit(updateJob, id, getAllTask) {
       {
         headers: { Authorization: "Bearer " + auth.token },
       }
-    );
-    getAllTask();
+      ///// xet lai de dong bo vs loading edit
+    )  .then(() => {
+      return getAllTask();
+   
+    }).then(() => {
+      setLoading(false)
+    });
+  ///////////
+    
   } catch (error) {
     alert(error);
+    setLoading(false)
   }
 }
 /////
 // ///////// xoa task
-export async function deleteTask(id, getAllTask) {
+export async function deleteTask(id, setLoading, getAllTask) {
   const auth = getLocalStored("auth");
 
   try {
     await axiosClient.delete("task/" + id, {
       headers: { Authorization: "Bearer " + auth.token },
-    });
-    getAllTask();
+    }
+    // xet lai de dong bo vs loading delete
+    ).then(() => {
+      return getAllTask();
+    }).then(() => {
+      setLoading(false)
+    })
+    //////////
+    
   } catch (error) {
     alert(error);
+    setLoading(false)
   }
 }
 ////////////
 // get task tu api
-export async function getAllTask(setState, limit, skip) {
+export async function getAllTask(setState, setLoading, limit, skip) {
   const params = {
     limit,
     skip,
@@ -95,8 +113,10 @@ export async function getAllTask(setState, limit, skip) {
       params,
     });
     setState(res.data.data);
+    setLoading(false)
   } catch (error) {
     alert(error);
+    setLoading(false)
   }
 }
 

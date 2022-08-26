@@ -5,9 +5,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {  getLocalStored } from "../localStored";
 import { axiosClient } from "../axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loading from "../loadingScreen/loadingScreen";
 
 export default function Regis() {
+  
+  const [load, setLoad] = useState(false)
+
   // set formik
   let navigate = useNavigate();
   const formik = useFormik({
@@ -28,13 +32,16 @@ export default function Regis() {
     ////
     //post user login to API
     onSubmit: async (values) => {
+      setLoad(true)
       const data = values
       try {
         await axiosClient.post('user/register', data)
         navigate('/')
-        alert('Sign Up success')
+        
+        setLoad(false)
       } catch (error) {
         alert('Sign Up false')
+        setLoad(false)
       }
     
 ////////////////////////
@@ -53,6 +60,7 @@ export default function Regis() {
   //////////
   return (
     <Contaner>
+      <Loading load={load}/>
       <Wrapper>
         <h1>SIGN UP</h1>
         <form className="form" onSubmit={formik.handleSubmit}>
