@@ -19,7 +19,8 @@ export async function handleChangeStatus(e, id, getAllTask) {
     alert(error);
   }
 }
-
+//////////
+///////// tao task moi
 export async function createTask(job, ref, getAllTask) {
   if (job === "") {
     return;
@@ -41,7 +42,30 @@ export async function createTask(job, ref, getAllTask) {
     alert(error);
   }
 }
+////////
+//// update task
 
+export async function handleEdit(updateJob, id, getAllTask) {
+  if (updateJob === "") {
+    return;
+  }
+  const auth = getLocalStored("auth");
+  try {
+    await axiosClient.put(
+      "task/" + id,
+      {
+        description: updateJob,
+      },
+      {
+        headers: { Authorization: "Bearer " + auth.token },
+      }
+    );
+    getAllTask();
+  } catch (error) {
+    alert(error);
+  }
+}
+/////
 // ///////// xoa task
 export async function deleteTask(id, getAllTask) {
   const auth = getLocalStored("auth");
@@ -55,13 +79,14 @@ export async function deleteTask(id, getAllTask) {
     alert(error);
   }
 }
-
+////////////
+// get task tu api
 export async function getAllTask(setState, limit, skip) {
   const params = {
     limit,
-    skip:(skip -1)*limit,
+    skip,
   };
-  console.log(skip)
+
   const auth = getLocalStored("auth");
 
   try {
@@ -89,3 +114,4 @@ export function panigiHi(set, value) {
 
   return { next, pre };
 }
+///////////////

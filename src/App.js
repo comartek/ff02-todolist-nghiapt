@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import TableTask from "./components/Table/Table";
-import { getLocalStored} from "./components/localStored";
+import { getLocalStored } from "./components/localStored";
 import { useNavigate, Link } from "react-router-dom";
 import {
   getAllTask,
@@ -9,9 +9,12 @@ import {
   deleteTask,
   handleChangeStatus,
   panigiHi,
+  handleEdit,
 } from "./service/task";
 import { handleLogout, handleDeleteUser } from "./service/user";
-import {getImage, handleDeleteImage} from "./service/image"
+import { getImage, handleDeleteImage } from "./service/image";
+
+// skip = (page -1) * limit
 
 function App() {
   const auth = getLocalStored("auth");
@@ -20,48 +23,54 @@ function App() {
   const [job, setJob] = useState("");
   const [jobs, setJobs] = useState([]);
   const ref = useRef(null);
+  const limit = 5;
 
-  const [limit, setLimit] = useState(5);
-  const [skip, setSkip] = useState(1);
+  // const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+
+  const skip = (page - 1) * limit;
   const navigate = useNavigate();
 
   // task
-  /// dat trang 
+  /// dat trang
   const panigi = () => {
     function pre() {
-      panigiHi(setSkip, skip).pre();
+      panigiHi(setPage, page).pre();
     }
     function next() {
-      panigiHi(setSkip, skip).next();
+      panigiHi(setPage, page).next();
     }
 
     return { next, pre };
   };
-////////
-///// thay doi trang thai
+  ////////
+  ///// thay doi trang thai
   const handleChangeStatusHai = (e, id) => {
     handleChangeStatus(e, id, () => getAllTask(setJobs, limit, skip));
   };
-//////
-//// xoa task
+  //////
+  //// xoa task
   const deleteTaskHai = (id) => {
     deleteTask(id, () => getAllTask(setJobs, limit, skip));
   };
-//////
-///// tao task moi tu input
+  //////
+  ///// tao task moi tu input
   const createTaskHai = () =>
     createTask(job, ref, () => getAllTask(setJobs, limit, skip));
-///////
-////// edit task 
-  
+  ///////
+  ////// edit task
 
+  function onEdit(i, job) {
+    handleEdit(job, i, () => getAllTask(setJobs, limit, skip));
+  }
+  // const onEditJob = () => HandleUpdateJop();
 
   function handleChange(e) {
     setJob(e.target.value);
   }
   useEffect(() => {
     getAllTask(setJobs, limit, skip);
-  }, [skip]);
+  }, [page]);
   //////////////////////
   ////// logout user
 
@@ -77,15 +86,14 @@ function App() {
   //////////////////////
   //// get image from API and delete image
   const [image, setImage] = useState();
-  // 
+  //
   const handleDeleteImageHai = () => {
-    handleDeleteImage(() => getImage(setImage))
-  }
+    handleDeleteImage(() => getImage(setImage));
+  };
   useEffect(() => {
     getImage(setImage);
   }, []);
-///////////////
-  
+  ///////////////
 
   return (
     <div className="App">
@@ -96,7 +104,9 @@ function App() {
         style={{ width: 200, height: 200, borderRadius: 200 / 2 }}
       />
       <br />
-      <button style={{ marginTop: 20 }} onClick={handleDeleteImageHai}>Delete Image</button>
+      <button style={{ marginTop: 20 }} onClick={handleDeleteImageHai}>
+        Delete Image
+      </button>
       <br />
       <br />
       <button style={{ marginBottom: 30 }} onClick={handleLogoutHai}>
@@ -129,8 +139,8 @@ function App() {
         onDelete={deleteTaskHai}
         jobs={jobs}
         onChangeStatus={handleChangeStatusHai}
-       
-        
+        onEdit={onEdit}
+        // updateJob={HandleUpdateJop}
       />
 
       <div
@@ -141,7 +151,7 @@ function App() {
           gap: "50px",
         }}>
         <button onClick={() => panigi().pre()}>Back</button>
-        <p>Page {skip}</p>
+        <p>Page {page}</p>
         <button onClick={() => panigi().next()}>Next</button>
       </div>
     </div>

@@ -1,8 +1,23 @@
-
+import { useEffect, useState } from "react";
 import "./Table.css";
+import { handleEdit, getAllTask } from "../../service/task";
 
-function TableTask({ jobs, onDelete, onChangeStatus}) {
+function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION", "STATUS"];
+
+  const [idEdit, setIdEdit] = useState();
+  const [updateJob, setUpdateJob] = useState();
+
+  function handleChange(e) {
+    setUpdateJob(e.target.value);
+  }
+
+  function handleEdit(id) {
+    onEdit(id, updateJob);
+    setIdEdit("");
+    setUpdateJob("");
+  }
+  console.log(onEdit);
 
   return (
     <div>
@@ -23,20 +38,36 @@ function TableTask({ jobs, onDelete, onChangeStatus}) {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
-                {/* {idEdit === idDelete ? (
+                {idEdit === idDelete ? (
                   <td>
                     <input
                       style={{ color: "black" }}
                       type="text"
-                      onChange={(e) => setEditingText(e, idDelete) }
+                      onChange={handleChange}
+                      placeholder="sửa công việc"
                     />
+                    <button
+                      style={{ marginLeft: 20 }}
+                      onClick={() => handleEdit(idDelete)}>
+                      SAVE
+                    </button>
                   </td>
                 ) : (
-                )} */}
-                
                   <td> {item.description} </td>
+                )}
+
                 <td>{item.createdAt}</td>
                 <td>
+                  <button
+                    onClick={() => setIdEdit(idDelete)}
+                    style={{
+                      backgroundColor: "lightgreen",
+                      borderRadius: 10,
+                      color: "white",
+                      marginRight: 20,
+                    }}>
+                    EDIT
+                  </button>
                   <button
                     onClick={() => onDelete(idDelete)}
                     style={{
