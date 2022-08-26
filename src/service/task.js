@@ -112,7 +112,7 @@ export async function getAllTask(setState, setLoading, limit, skip) {
       headers: { Authorization: "Bearer " + auth.token },
       params,
     });
-    setState(res.data.data);
+    setState((prev) => [res.data.data, ...prev]);
     setLoading(false)
   } catch (error) {
     alert(error);

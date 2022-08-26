@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import TableTask from "./components/Table/Table";
-import TableComplete from "./components/Table/tableComplete";
+
 import { getLocalStored } from "./components/localStored";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -26,7 +26,7 @@ function App() {
   const [job, setJob] = useState("");
   const [jobs, setJobs] = useState([]);
   const ref = useRef(null);
-  const limit = 5;
+  const limit = 10;
 
   // const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
@@ -149,11 +149,7 @@ function App() {
         onEdit={onEdit}
         
       />
-      <TableComplete
-        jobs={jobs}
-
-
-      />
+      
 
       <div
         style={{

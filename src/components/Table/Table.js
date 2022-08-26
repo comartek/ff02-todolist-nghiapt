@@ -21,7 +21,7 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
 
   return (
     <div>
-      <h1 style={{ marginTop: 40 }}>UnComplete</h1>
+      <h1 style={{ marginTop: 40 }}>TABLE</h1>
       <body>
         <table style={{ width: "100%" }}>
           <tr>
@@ -33,7 +33,7 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
               );
             })}
           </tr>
-          {jobs.filter((jobss) => jobss.completed === false).map((item, index) => {
+          {jobs.map((item, index) => {
             let idDelete = item._id;
             return (
               <tr key={index}>

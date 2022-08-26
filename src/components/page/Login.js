@@ -48,11 +48,11 @@ export default function Login() {
   ///////
   // logic ghi nho user da dang nhap
   const user = getLocalStored("auth");
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/app");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      navigate("/app");
+    }
+  }, []);
   ////////
   return (
     <Contaner>
