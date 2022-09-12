@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./Table.css";
 
-
 function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
   const colName = ["ID", "CONTENT", "DATELINE", "ACTION", "STATUS"];
 
@@ -17,7 +16,6 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
     setIdEdit("");
     setUpdateJob("");
   }
- 
 
   return (
     <div>
@@ -35,6 +33,7 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
           </tr>
           {jobs.map((item, index) => {
             let idDelete = item._id;
+
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
@@ -48,7 +47,8 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
                     />
                     <button
                       style={{ marginLeft: 20 }}
-                      onClick={() => handleEdit(idDelete)}>
+                      onClick={() => handleEdit(idDelete)}
+                    >
                       SAVE
                     </button>
                   </td>
@@ -65,7 +65,8 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
                       borderRadius: 10,
                       color: "white",
                       marginRight: 20,
-                    }}>
+                    }}
+                  >
                     EDIT
                   </button>
                   <button
@@ -74,7 +75,8 @@ function TableTask({ jobs, onDelete, onChangeStatus, onEdit }) {
                       backgroundColor: "#de1738",
                       borderRadius: 10,
                       color: "white",
-                    }}>
+                    }}
+                  >
                     DELETE
                   </button>
                 </td>
